@@ -1,0 +1,44 @@
+[
+    {
+      "id": 1,
+      "image": "sandalia_modare_duo.png",
+      "product_name": "Modare Duo",
+      "product_model": "Duo",
+      "price": 119.99
+    },
+    {
+      "id": 2,
+      "image": "sandalia-conforto-modare-ultraconforto-pessego.png",
+      "product_name": "Modare Ultraconforto Pessego",
+      "product_model": "Ultraconforto",
+      "price": 149.99
+    },
+    {
+      "id": 3,
+      "image": "sandalia-modare-pessego.png",
+      "product_name": "modare-pessego",
+      "product_model": "Confort",
+      "price": 135.00
+    },
+    {
+      "id": 4,
+      "image": "sandalia-modare-ultraconforto-7125.png",
+      "product_name": "Modare Ultraconforto 7125.png",
+      "product_model": "Ultraconforto",
+      "price": 158.00
+    },
+    {
+      "id": 5,
+      "image": "sandalia-modare-ultraconforto-flatform-tratorado.png",
+      "product_name": "Modare ultraconforto Flatform Tratorado",
+      "product_model": "Flatform Tratorado",
+      "price": 94.99
+    },
+    {
+      "id": 6,
+      "image": "sandalia-ultraconforto-modare-creme.png",
+      "product_name": "Ultraconforto Modare Creme.png",
+      "product_model": "Ultraconforto",
+      "price": 99.99
+    }
+  ]

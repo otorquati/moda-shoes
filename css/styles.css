@@ -3,7 +3,7 @@
     --dark: #121214;
     --white-soft: #f3ffFF;
     --white: #ffffff;
-    --gray-transpirant: rgb(163, 181, 187, 0.6)
+    --gray-transparent: rgb(163, 181, 187, 0.6)
 }
 
 * {
@@ -18,7 +18,7 @@ body {
     font-family: Archivo, sans-serif;
 }
 
-.top_fixed {
+.top__fixed {
     width: 100%;
     height: 64px;
     background-color: var(--white_soft);
