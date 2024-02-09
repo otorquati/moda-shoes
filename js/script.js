@@ -21,7 +21,7 @@ const generateCard = async () => {
         <h4>${product.product_name}</h4>
         <h5>Modelo:${product.product_model}</h5>
     </div>
-    <p class="card__produto_preco">Preço: R$ ${product.price}</h6>`
+    <h6 class="card__produto_preco">Preço: R$ ${product.price}</h6>`
     const listaProdutos = document.querySelector('.lista__produtos')
     listaProdutos.appendChild(card)
     })
