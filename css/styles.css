@@ -74,7 +74,8 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    display: fle
+    display: flex;
+        flex-direction: column;
 }
 
 .produtos {
@@ -114,12 +115,17 @@ main {
 }
 
 .card__produto {
-    border: 1px solid green;
     width: 336px;
-    height: 426px;
+    height: 100%;
 }
 
-.card__produto figure {
+.card__produto figure:hover {
+    border: 1px solid var(--brand-color);
+    cursor: pointer;
+}
+
+.card__produto figure,
+.produto__detalhes_imagens figure {
     width: 100%;
     height: 200px;
     background-color: var(--white-soft);
@@ -129,7 +135,8 @@ main {
     justify-content: center;
 }
 
-.card__produto figure img {
+.card__produto figure img,
+.produto__detalhes_imagens figure img {
     width: 200px;
 }
 
@@ -143,12 +150,15 @@ main {
 }
 
 .card__produto_detalhes h4,
+h6,
+.produto__detalhes_info h4,
 h6 {
     font-size: 18px;
     line-height: 28px;
 }
 
-.card__produto_detalhes h5 {
+.card__produto_detalhes h5,
+.produto__detalhes_info h5 {
     font-size: 16px;
     line-height: 26px;
     color: var(--brand-color);
@@ -247,4 +257,196 @@ h6 {
     .card__produto_detalhes h4 {
         font-size: 16px;
     }
+}
+/* Aula 07 - detalhes de produtos */
+.produto__detalhes {
+    /*border: 1px solid red;*/
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    /*align-items: center;*/
+    justify-content: center;
+}
+
+.produto__detalhes_imagens {
+    /*border: 1px solid green;*/
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.detalhes,
+.tamanho,
+.botao,
+.descricao {
+    margin-bottom: 20px;
+}
+
+.botao {
+    width: 100%;
+}
+
+.botao button {
+    background-color: var(--dark);
+    color: var(--white);
+    width: 100%;
+    height: 50px;
+    border-radius: 50px;
+    border: 0;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Aula 08 */
+
+/* detalhes de produto - nome, descrição e preço */
+
+.detalhes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.detalhes h4 {
+    font-size: 24px;
+}
+
+.detalhes h5 {
+    font-size: 16px;
+    color: var(--brand-color);
+}
+
+.detalhes h6 {
+    font-size: 24px;
+    font-family: "Space Grotesk", sans-serif;
+}
+
+.tamanho h5 {
+    font-size: 18px;
+    margin-bottom: 10px;
+
+}
+
+.tamanhos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.numeros {
+    height: 40px;
+    border: 1px solid #ccc;
+}
+
+.descricao {
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 400;
+}
+
+.descricao p {
+    margin-bottom: 10px;
+}
+
+.descricao ul {
+    margin-left: 20px;
+}
+
+/* frete */
+details::marker,
+summary::marker {
+    content: "";
+}
+
+summary {
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    height: 24px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.icone-expandir::after,
+.icone-recolher::after {
+    content: "";
+    display: inline-flex;
+    width: 16px;
+    height: 16px;
+    background-image: url('../img/icon_expand_more_FILL0_wght400_GRAD0_opsz24.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-left: 5px;
+}
+
+.icone-recolher::after {
+    background-image: url('../img/icon_expand_less_FILL0_wght400_GRAD0_opsz24.svg');
+
+}
+
+details {
+    font-size: 16px;
+}
+
+details p {
+    margin-bottom: 15px;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+.input {
+    margin-block: 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.input input {
+    width: 100%;
+    height: 50px;
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    font-size: 20px;
+    padding-left: 20px;
+}
+
+.input button {
+    font-size: 20px;
+    font-weight: 500;
+    width: 120px;
+    height: 40px;
+    background-color: var(--white);
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    position: absolute;
+    bottom: 5px;
+    right: 0;
+    margin-left: 5px;
+}
+
+.input button:hover {
+    border-color: #222;
+}
+
+details a {
+    color: var(--dark);
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.voltar {
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.voltar:hover {
+    cursor: pointer;
 }
