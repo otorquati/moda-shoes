@@ -24,6 +24,7 @@ const generateCard = async () => {
     products.map(product => {
         //console.log(product)
         let card = document.createElement('div')
+        card.id = product.id
         card.classList.add('card__produto')
         card.innerHTML = ` <figure>
         <img src="img/${product.image}" alt=${product.product_name} />
@@ -36,12 +37,25 @@ const generateCard = async () => {
     const listaProdutos = document.querySelector('.lista__produtos')
     listaProdutos.appendChild(card)
 
-    card.addEventListener('click', () => {
+    card.addEventListener('click', (e) => {
         // Oculta a lista de produtos
         sectionProdutos.style.display = 'none'
         // mostrar pagina detalhes
         botaoVoltar.style.display = 'block'
         sectionDetalhesProduto.style.display = 'grid'
+
+        // Identificar o card clicado
+        const carClicado = e.currentTarget
+        const idProduto = carClicado.id
+        const produtoClicado = products.find(product => product.id == idProduto)
+        
+        // Preencher dados de detalhes de produtos
+        preencherDadosProdutos(produtoClicado)
+        console.log(produtoClicado)
+
+
+
+
     })
 
     })
@@ -56,3 +70,19 @@ botaoVoltar.addEventListener('click', () => {
     botaoVoltar.style.display = 'none'
     sectionDetalhesProduto.style.display = 'none'
 })
+
+const preencherDadosProdutos = (product) => {
+    //preencher imagem
+    const images = document.querySelectorAll('.produto__detalhes_imagens figure img')
+    const imagesArray = Array.from(images)
+    imagesArray.map( image => {
+        image.src = `./img/${product.image}`
+    })
+    console.log(imagesArray)
+    // preencher nome, modelo e preço
+    document.querySelector('.detalhes h4').innerHTML = product.product_name
+    document.querySelector('.detalhes h5').innerHTML = product.product_model
+    document.querySelector('.detalhes h6').innerHTML = formatCurrency(product.price)
+    
+
+}

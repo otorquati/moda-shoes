@@ -138,6 +138,7 @@ main {
 .card__produto figure img,
 .produto__detalhes_imagens figure img {
     width: 200px;
+    height: 300px;
 }
 
 .card__produto h6 {
@@ -150,7 +151,20 @@ main {
 }
 
 .card__produto_detalhes h4,
-h6,
+h6 {
+    font-size: 18px;
+    line-height: 28px;
+    /* Ajustes na aula 09 */
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card__produto_detalhes h6 {
+    font-size: 18px;
+    line-height: 28px;
+}
 .produto__detalhes_info h4,
 h6 {
     font-size: 18px;
