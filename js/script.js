@@ -2,8 +2,12 @@ const botaoVoltar = document.querySelector('.voltar')
 const sectionDetalhesProduto = document.querySelector('.produto__detalhes')
 const sectionProdutos = document.querySelector('.produtos')
 // Oculta botão voltar e detalhes de produto
-botaoVoltar.style.display = 'none'
-sectionDetalhesProduto.style.display = 'none'
+const ocultarBotaoeSecao = () => {
+    botaoVoltar.style.display = 'none'
+    sectionDetalhesProduto.style.display = 'none'
+}
+
+ocultarBotaoeSecao()
 
 const formatCurrency = (number) => {
     return number.toLocaleString('pt-BR', {
@@ -26,38 +30,18 @@ const generateCard = async () => {
         let card = document.createElement('div')
         card.id = product.id
         card.classList.add('card__produto')
-        card.innerHTML = ` <figure>
-        <img src="img/${product.image}" alt=${product.product_name} />
-    </figure>
-    <div class="card__produto_detalhes">
-        <h4>${product.product_name}</h4>
-        <h5>Modelo:${product.product_model}</h5>
-    </div>
-    <h6 class="card__produto_preco">Preço: ${formatCurrency(product.price)}</h6>`
-    const listaProdutos = document.querySelector('.lista__produtos')
-    listaProdutos.appendChild(card)
-
-    card.addEventListener('click', (e) => {
-        // Oculta a lista de produtos
-        sectionProdutos.style.display = 'none'
-        // mostrar pagina detalhes
-        botaoVoltar.style.display = 'block'
-        sectionDetalhesProduto.style.display = 'grid'
-
-        // Identificar o card clicado
-        const carClicado = e.currentTarget
-        const idProduto = carClicado.id
-        const produtoClicado = products.find(product => product.id == idProduto)
-        
-        // Preencher dados de detalhes de produtos
-        preencherDadosProdutos(produtoClicado)
-        console.log(produtoClicado)
-
-
-
-
-    })
-
+        card.innerHTML = ` 
+        <figure>
+            <img src="img/${product.image}" alt=${product.product_name} />
+        </figure>
+        <div class="card__produto_detalhes">
+            <h4>${product.product_name}</h4>
+            <h5>Modelo:${product.product_model}</h5>
+        </div>
+        <h6 class="card__produto_preco">Preço: ${formatCurrency(product.price)}</h6>`
+        const listaProdutos = document.querySelector('.lista__produtos')
+        listaProdutos.appendChild(card)
+        preencherCard(card, products)
     })
 }
 
@@ -67,8 +51,7 @@ botaoVoltar.addEventListener('click', () => {
     // Mostrar a lista de produtos
     sectionProdutos.style.display = 'flex'
     // Ocultar pagina detalhes
-    botaoVoltar.style.display = 'none'
-    sectionDetalhesProduto.style.display = 'none'
+    ocultarBotaoeSecao()
 })
 
 const preencherDadosProdutos = (product) => {
@@ -78,11 +61,32 @@ const preencherDadosProdutos = (product) => {
     imagesArray.map( image => {
         image.src = `./img/${product.image}`
     })
-    console.log(imagesArray)
     // preencher nome, modelo e preço
     document.querySelector('.detalhes h4').innerHTML = product.product_name
     document.querySelector('.detalhes h5').innerHTML = product.product_model
     document.querySelector('.detalhes h6').innerHTML = formatCurrency(product.price)
-    
+}
 
+// Mudar icone do details frete
+const details = document.querySelector('details')
+details.addEventListener('toggle', () => {
+    const summary = document.querySelector('summary')
+    summary.classList.toggle('icone-expandir')
+    summary.classList.toggle('icone-recolher')
+})
+
+const preencherCard = (card, products) => {
+    card.addEventListener('click', (e) => {
+        // Oculta a lista de produtos
+        sectionProdutos.style.display = 'none'
+        // mostrar pagina detalhes
+        botaoVoltar.style.display = 'block'
+        sectionDetalhesProduto.style.display = 'grid'
+        // Identificar o card clicado
+        const carClicado = e.currentTarget
+        const idProduto = carClicado.id
+        const produtoClicado = products.find(product => product.id == idProduto)     
+        // Preencher dados de detalhes de produtos
+        preencherDadosProdutos(produtoClicado)
+    })
 }

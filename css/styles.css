@@ -185,6 +185,7 @@ h6 {
     font-family: "Space Grotesk", sans-serif;
 }
 
+
 /* Responsividade */
 @media (max-width: 768px) {
 
@@ -349,9 +350,27 @@ h6 {
     gap: 8px;
 }
 
+/* Aula 10 */
 .numeros {
     height: 40px;
     border: 1px solid #ccc;
+    border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .numeros:hover {
+        border-color: var(--dark);
+        cursor: pointer;
+    }
+    
+    .radio {
+        display: none;
+    }
+    
+    .selecionado {
+        border-color: var(--dark);
 }
 
 .descricao {
