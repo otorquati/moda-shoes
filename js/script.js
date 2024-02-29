@@ -1,6 +1,7 @@
 const botaoVoltar = document.querySelector('.voltar')
 const sectionDetalhesProduto = document.querySelector('.produto__detalhes')
 const sectionProdutos = document.querySelector('.produtos')
+const sectionHero = document.querySelector('.hero')
 // Oculta botão voltar e detalhes de produto
 const ocultarBotaoeSecao = () => {
     botaoVoltar.style.display = 'none'
@@ -62,6 +63,7 @@ const preencherDadosProdutos = (product) => {
         image.src = `./img/${product.image}`
     })
     // preencher nome, modelo e preço
+    document.querySelector('.detalhes span').innerHTML = product.id // adjust all
     document.querySelector('.detalhes h4').innerHTML = product.product_name
     document.querySelector('.detalhes h5').innerHTML = product.product_model
     document.querySelector('.detalhes h6').innerHTML = formatCurrency(product.price)
@@ -90,3 +92,24 @@ const preencherCard = (card, products) => {
         preencherDadosProdutos(produtoClicado)
     })
 }
+
+/* Aula 11 */
+const btnCarrinho = document.querySelector('.btn__carrinho .icone')
+const sectionCarrinho = document.querySelector('.corrinho')
+
+btnCarrinho.addEventListener('click', () => {
+    sectionCarrinho.style.display = 'block'
+    sectionHero.style.display = 'none'
+    sectionProdutos.style.display = 'none'
+    sectionDetalhesProduto.style.display = 'nome' 
+})
+
+const btnHome = document.querySelector('.link_home')
+btnHome.addEventListener('click', (event) => {
+    event.preventDefault()
+    sectionCarrinho.style.display = 'none'
+    sectionHero.style.display = 'flex'
+    sectionProdutos.style.display = 'flex'
+    /* ajuste */
+    ocultarBotaoeSecao()
+})
