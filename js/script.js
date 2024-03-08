@@ -53,6 +53,8 @@ botaoVoltar.addEventListener('click', () => {
     sectionProdutos.style.display = 'flex'
     // Ocultar pagina detalhes
     ocultarBotaoeSecao()
+    resetarSelecao(radios)
+    
 })
 
 const preencherDadosProdutos = (product) => {
@@ -94,8 +96,8 @@ const preencherCard = (card, products) => {
 }
 
 /* Aula 11 */
-const btnCarrinho = document.querySelector('.btn__carrinho .icone')
-const sectionCarrinho = document.querySelector('.corrinho')
+const btnCarrinho = document.querySelector('.btn__carrinho .icons')
+const sectionCarrinho = document.querySelector('.carrinho')
 
 btnCarrinho.addEventListener('click', () => {
     sectionCarrinho.style.display = 'block'
@@ -110,6 +112,53 @@ btnHome.addEventListener('click', (event) => {
     sectionCarrinho.style.display = 'none'
     sectionHero.style.display = 'flex'
     sectionProdutos.style.display = 'flex'
-    /* ajuste */
+    /* ajuste aula 12 */
     ocultarBotaoeSecao()
 })
+
+// Aula 12 */
+const radios = document.querySelectorAll('input[type="radio"]')
+radios.forEach(radio => {
+    radio.addEventListener('change', () =>{
+        const label = document.querySelector(`label[for="${radio.id}"]`)
+        label.classList.add('selecionado')
+        console.log(label)
+        radios.forEach(radioAtual => {
+            if (radioAtual !== radio) {
+                const outroLabel = document.querySelector(`label[for="${radioAtual.id}"]`)
+                outroLabel.classList.remove('selecionado')
+            }
+        })
+    })
+})
+
+const resetarSelecao = (radios => { 
+    radios.forEach(radio => {
+        radios.forEach(radioAtual => {
+            if (radioAtual !== radio) {
+                const outroLabel = document.querySelector(`label[for="${radioAtual.id}"]`)
+                outroLabel.classList.remove('selecionado')
+            }
+        })
+    })
+})
+
+const cart = []
+const btnAddCarrinho = document.querySelector('.btn__add_cart')
+btnAddCarrinho.addEventListener('click', () => {
+    const produto = {
+        id: document.querySelector('.detalhes span').innerHTML,
+        nome: document.querySelector('.detalhes h4').innerHTML,
+        modelo: document.querySelector('.detalhes h5').innerHTML,
+        preco: document.querySelector('.detalhes h6').innerHTML,
+        tamanho: document.querySelector('input[type="radio"][name="size"]:checked').value
+    }
+    cart.push(produto)
+    console.log(cart)
+    // Ocultar Botão Voltar e detalhes_produtos
+    ocultarBotaoeSecao()
+    sectionHero.style.display='none'
+    sectionCarrinho.style.display='block'
+})
+
+
