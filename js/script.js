@@ -10,12 +10,12 @@ const ocultarBotaoeSecao = () => {
 
 ocultarBotaoeSecao()
 
-const formatCurrency = (number) => {
-    return number.toLocaleString('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
+const formatCurrency = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
     })
-}
 
 const getProducts = async () => { 
     const response = await fetch('js/products.json')
@@ -39,7 +39,7 @@ const generateCard = async () => {
             <h4>${product.product_name}</h4>
             <h5>Modelo:${product.product_model}</h5>
         </div>
-        <h6 class="card__produto_preco">Preço: ${formatCurrency(product.price)}</h6>`
+        <h6 class="card__produto_preco">Preço: ${formatCurrency.format(product.price)}</h6>`
         const listaProdutos = document.querySelector('.lista__produtos')
         listaProdutos.appendChild(card)
         preencherCard(card, products)
@@ -68,7 +68,7 @@ const preencherDadosProdutos = (product) => {
     document.querySelector('.detalhes span').innerHTML = product.id // adjust all
     document.querySelector('.detalhes h4').innerHTML = product.product_name
     document.querySelector('.detalhes h5').innerHTML = product.product_model
-    document.querySelector('.detalhes h6').innerHTML = formatCurrency(product.price)
+    document.querySelector('.detalhes h6').innerHTML = formatCurrency.format(product.price)
 }
 
 // Mudar icone do details frete
@@ -122,7 +122,7 @@ radios.forEach(radio => {
     radio.addEventListener('change', () =>{
         const label = document.querySelector(`label[for="${radio.id}"]`)
         label.classList.add('selecionado')
-        console.log(label)
+        //console.log(label)
         radios.forEach(radioAtual => {
             if (radioAtual !== radio) {
                 const outroLabel = document.querySelector(`label[for="${radioAtual.id}"]`)
@@ -154,7 +154,7 @@ btnAddCarrinho.addEventListener('click', () => {
         tamanho: document.querySelector('input[type="radio"][name="size"]:checked').value
     }
     cart.push(produto)
-    console.log(cart)
+    //console.log(cart)
     // Ocultar Botão Voltar e detalhes_produtos
     ocultarBotaoeSecao()
     sectionHero.style.display='none'
@@ -181,11 +181,44 @@ const atualizarCarrinho = (cart) => {
             </td>
         </tr>`
     })
+    // Aula 14 - R$nbsp;1.124,45 -> 112445
+    const total = cart.reduce( (valorAcumulado, item) => {
+        return valorAcumulado + parseFloat(item.preco.replace('R$&nbsp;', '').replace('.', '').replace(',', '.'))
+    },0)
+    document.querySelector('.coluna_total').innerHTML = formatCurrency.format(total)
+
+    acaoBotaoApagar()
 }
 
+// Aula 13 e 14
+// ajuste para ocultar o span dos itens do carrinho
+
 const numeroItens = document.querySelector('.numero_itens')
+numeroItens.style.display = 'none'
+
 const atualizarNumeroItens = () => {
+    (cart.length > 0) ? numeroItens.style.display = 'block' : numeroItens.style.display = 'none'
     numeroItens.innerHTML = cart.length
 }
+
+// Aula 14 - Botão apagar
+
+const acaoBotaoApagar = () => {
+    const btnApagar = document.querySelectorAll('.coluna_apagar span')
+    btnApagar.forEach( botao => {
+        botao.addEventListener('click', () => {
+            const id = botao.getAttribute("data-id")
+            console.log(id)
+            const posicao = cart.findIndex(item => item.id == id)
+            cart.splice(posicao, 1)
+            atualizarCarrinho(cart)
+        })
+    })
+    atualizarNumeroItens()
+}
+
+// ajuste para ocultar o span do id
+const spanId = document.querySelector('.detalhes span')
+spanId.style.display = 'none' 
 
 
