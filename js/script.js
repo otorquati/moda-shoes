@@ -159,6 +159,33 @@ btnAddCarrinho.addEventListener('click', () => {
     ocultarBotaoeSecao()
     sectionHero.style.display='none'
     sectionCarrinho.style.display='block'
+
+    atualizarCarrinho(cart)
+    atualizarNumeroItens()
 })
+
+const corpoTabela = document.querySelector('.carrinho tbody') 
+const atualizarCarrinho = (cart) => {
+        corpoTabela.innerHTML = ""
+    cart.map(produto => {
+        corpoTabela.innerHTML += `
+        <tr>
+            <td>${produto.id}</td>
+            <td>${produto.nome}</td>
+            <td class='coluna_tamanho'>${produto.tamanho}</td>
+            <td class='coluna_preco'>${produto.preco}</td>
+            <td class='coluna_apagar'>
+                <span class="material-symbols-outlined" data-id="${produto.id}">
+                    delete
+                </span>
+            </td>
+        </tr>`
+    })
+}
+
+const numeroItens = document.querySelector('.numero_itens')
+const atualizarNumeroItens = () => {
+    numeroItens.innerHTML = cart.length
+}
 
 
