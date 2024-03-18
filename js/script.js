@@ -1,33 +1,85 @@
+const sectionHero = document.querySelector('.hero')
+const sectionProdutos = document.querySelector('.produtos')
 const botaoVoltar = document.querySelector('.voltar')
 const sectionDetalhesProduto = document.querySelector('.produto__detalhes')
-const sectionProdutos = document.querySelector('.produtos')
-const sectionHero = document.querySelector('.hero')
+const sectionCarrinho = document.querySelector('.carrinho')
+
+// NAVEGAÇÃO
 // Oculta botão voltar e detalhes de produto
-const ocultarBotaoeSecao = () => {
+const ocultarVoltarEsecaoDetalhes = () => {
     botaoVoltar.style.display = 'none'
     sectionDetalhesProduto.style.display = 'none'
 }
+ocultarVoltarEsecaoDetalhes()
 
-ocultarBotaoeSecao()
+botaoVoltar.addEventListener('click', () => {
+    // Mostrar a lista de produtos
+    sectionProdutos.style.display = 'flex'
+    // Ocultar pagina detalhes
+    ocultarVoltarEsecaoDetalhes()
+    resetarSelecao(radios)
+})
 
-const formatCurrency = new Intl.NumberFormat('pt-BR', {
+/* Aula 11 */
+const btnCarrinho = document.querySelector('.btn__carrinho .icons')
+
+btnCarrinho.addEventListener('click', () => {
+    sectionCarrinho.style.display = 'block'
+    sectionHero.style.display = 'none'
+    sectionProdutos.style.display = 'none'
+    sectionDetalhesProduto.style.display = 'nome' 
+})
+
+const btnHome = document.querySelector('.link_home')
+btnHome.addEventListener('click', (event) => {
+    event.preventDefault()
+    sectionCarrinho.style.display = 'none'
+    sectionHero.style.display = 'flex'
+    sectionProdutos.style.display = 'flex'
+    /* ajuste aula 12 */
+    ocultarVoltarEsecaoDetalhes()
+})
+// Aula 13 e 14
+// ajuste para ocultar o span dos itens do carrinho
+// NUMERO DE ITENS DO CARRINHO
+const numeroItens = document.querySelector('.numero_itens')
+numeroItens.style.display = 'none'
+
+const atualizarNumeroItens = () => {
+    (cart.length > 0) ? numeroItens.style.display = 'block' : numeroItens.style.display = 'none'
+    numeroItens.innerHTML = cart.length
+}
+
+//  Formatar numeros para formato monetario brasileiro e exibir o simbolo R$
+const formatCurrencyBR = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
     })
 
+const limparFormatoReal = (valor) => {
+    return parseFloat(valor.replace('R$&nbsp;', '').replace('.', '').replace(',', '.'))
+}
+
+const formatCurrencyUS = new Intl.NumberFormat('en-US', {
+        style: 'decimal',
+        useGrouping: false,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    })
+
+// PAGE PRODUTOS
 const getProducts = async () => { 
     const response = await fetch('js/products.json')
     const data = await response.json()
-    // console.log(data)
-    return data
+     return data
 }
 
+// gerar dinamicamente os cards de cada produto
 const generateCard = async () => {
     const products = await getProducts()
     products.map(product => {
-        //console.log(product)
         let card = document.createElement('div')
         card.id = product.id
         card.classList.add('card__produto')
@@ -39,7 +91,7 @@ const generateCard = async () => {
             <h4>${product.product_name}</h4>
             <h5>Modelo:${product.product_model}</h5>
         </div>
-        <h6 class="card__produto_preco">Preço: ${formatCurrency.format(product.price)}</h6>`
+        <h6 class="card__produto_preco">Preço: ${formatCurrencyBR.format(product.price)}</h6>`
         const listaProdutos = document.querySelector('.lista__produtos')
         listaProdutos.appendChild(card)
         preencherCard(card, products)
@@ -48,37 +100,7 @@ const generateCard = async () => {
 
 generateCard()
 
-botaoVoltar.addEventListener('click', () => {
-    // Mostrar a lista de produtos
-    sectionProdutos.style.display = 'flex'
-    // Ocultar pagina detalhes
-    ocultarBotaoeSecao()
-    resetarSelecao(radios)
-    
-})
-
-const preencherDadosProdutos = (product) => {
-    //preencher imagem
-    const images = document.querySelectorAll('.produto__detalhes_imagens figure img')
-    const imagesArray = Array.from(images)
-    imagesArray.map( image => {
-        image.src = `./img/${product.image}`
-    })
-    // preencher nome, modelo e preço
-    document.querySelector('.detalhes span').innerHTML = product.id // adjust all
-    document.querySelector('.detalhes h4').innerHTML = product.product_name
-    document.querySelector('.detalhes h5').innerHTML = product.product_model
-    document.querySelector('.detalhes h6').innerHTML = formatCurrency.format(product.price)
-}
-
-// Mudar icone do details frete
-const details = document.querySelector('details')
-details.addEventListener('toggle', () => {
-    const summary = document.querySelector('summary')
-    summary.classList.toggle('icone-expandir')
-    summary.classList.toggle('icone-recolher')
-})
-
+// preencher card
 const preencherCard = (card, products) => {
     card.addEventListener('click', (e) => {
         // Oculta a lista de produtos
@@ -95,34 +117,41 @@ const preencherCard = (card, products) => {
     })
 }
 
-/* Aula 11 */
-const btnCarrinho = document.querySelector('.btn__carrinho .icons')
-const sectionCarrinho = document.querySelector('.carrinho')
+// PAGE DETALHES
+// preencher dados do produto na pagina detalhes do produto
+const preencherDadosProdutos = (product) => {
+    //preencher imagem
+    const images = document.querySelectorAll('.produto__detalhes_imagens figure img')
+    const imagesArray = Array.from(images)
+    imagesArray.map( image => {
+        image.src = `./img/${product.image}`
+    })
+    // preencher nome, modelo e preço
+    document.querySelector('.detalhes span').innerHTML = product.id // adjust all
+    document.querySelector('.detalhes h4').innerHTML = product.product_name
+    document.querySelector('.detalhes h5').innerHTML = product.product_model
+    document.querySelector('.detalhes h6').innerHTML = formatCurrencyBR.format(product.price)
+}
 
-btnCarrinho.addEventListener('click', () => {
-    sectionCarrinho.style.display = 'block'
-    sectionHero.style.display = 'none'
-    sectionProdutos.style.display = 'none'
-    sectionDetalhesProduto.style.display = 'nome' 
-})
+// ajuste para ocultar o span do id
+const spanId = document.querySelector('.detalhes span')
+spanId.style.display = 'none' 
 
-const btnHome = document.querySelector('.link_home')
-btnHome.addEventListener('click', (event) => {
-    event.preventDefault()
-    sectionCarrinho.style.display = 'none'
-    sectionHero.style.display = 'flex'
-    sectionProdutos.style.display = 'flex'
-    /* ajuste aula 12 */
-    ocultarBotaoeSecao()
+// Mudar icone do details frete
+const details = document.querySelector('details')
+details.addEventListener('toggle', () => {
+    const summary = document.querySelector('summary')
+    summary.classList.toggle('icone-expandir')
+    summary.classList.toggle('icone-recolher')
 })
 
 // Aula 12 */
+// controlar seleção dos inputs radio
 const radios = document.querySelectorAll('input[type="radio"]')
 radios.forEach(radio => {
     radio.addEventListener('change', () =>{
         const label = document.querySelector(`label[for="${radio.id}"]`)
         label.classList.add('selecionado')
-        //console.log(label)
         radios.forEach(radioAtual => {
             if (radioAtual !== radio) {
                 const outroLabel = document.querySelector(`label[for="${radioAtual.id}"]`)
@@ -143,6 +172,8 @@ const resetarSelecao = (radios => {
     })
 })
 
+// PAGE CARRINHO
+// criar array do carrinho
 const cart = []
 const btnAddCarrinho = document.querySelector('.btn__add_cart')
 btnAddCarrinho.addEventListener('click', () => {
@@ -150,13 +181,12 @@ btnAddCarrinho.addEventListener('click', () => {
         id: document.querySelector('.detalhes span').innerHTML,
         nome: document.querySelector('.detalhes h4').innerHTML,
         modelo: document.querySelector('.detalhes h5').innerHTML,
-        preco: document.querySelector('.detalhes h6').innerHTML,
+        preco: document.querySelector('.detalhes h6').innerHTML.replace('R$&nbsp;',''),        
         tamanho: document.querySelector('input[type="radio"][name="size"]:checked').value
     }
     cart.push(produto)
-    //console.log(cart)
     // Ocultar Botão Voltar e detalhes_produtos
-    ocultarBotaoeSecao()
+    ocultarVoltarEsecaoDetalhes()
     sectionHero.style.display='none'
     sectionCarrinho.style.display='block'
 
@@ -165,6 +195,7 @@ btnAddCarrinho.addEventListener('click', () => {
 })
 
 const corpoTabela = document.querySelector('.carrinho tbody') 
+
 const atualizarCarrinho = (cart) => {
         corpoTabela.innerHTML = ""
     cart.map(produto => {
@@ -183,25 +214,12 @@ const atualizarCarrinho = (cart) => {
     })
     // Aula 14 - R$nbsp;1.124,45 -> 112445
     const total = cart.reduce( (valorAcumulado, item) => {
-        return valorAcumulado + parseFloat(item.preco.replace('R$&nbsp;', '').replace('.', '').replace(',', '.'))
+        return valorAcumulado + limparFormatoReal(item.preco)
     },0)
-    document.querySelector('.coluna_total').innerHTML = formatCurrency.format(total)
+    document.querySelector('.coluna_total').innerHTML = formatCurrencyBR.format(total)
 
     acaoBotaoApagar()
 }
-
-// Aula 13 e 14
-// ajuste para ocultar o span dos itens do carrinho
-
-const numeroItens = document.querySelector('.numero_itens')
-numeroItens.style.display = 'none'
-
-const atualizarNumeroItens = () => {
-    (cart.length > 0) ? numeroItens.style.display = 'block' : numeroItens.style.display = 'none'
-    numeroItens.innerHTML = cart.length
-}
-
-// Aula 14 - Botão apagar
 
 const acaoBotaoApagar = () => {
     const btnApagar = document.querySelectorAll('.coluna_apagar span')
@@ -216,9 +234,3 @@ const acaoBotaoApagar = () => {
     })
     atualizarNumeroItens()
 }
-
-// ajuste para ocultar o span do id
-const spanId = document.querySelector('.detalhes span')
-spanId.style.display = 'none' 
-
-
