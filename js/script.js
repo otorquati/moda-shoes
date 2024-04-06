@@ -4,17 +4,26 @@ const botaoVoltar = document.querySelector('.voltar')
 const sectionDetalhesProduto = document.querySelector('.produto__detalhes')
 const sectionCarrinho = document.querySelector('.carrinho')
 
+// FUNÇÕES ÚTEIS
+const ocultarElemento = (elemento) => {
+    elemento.style.display='none'
+}
+
+const mostrarElemento = (elemento, display='block') => {
+    elemento.style.display = display
+}
+
 // NAVEGAÇÃO
 // Oculta botão voltar e detalhes de produto
 const ocultarVoltarEsecaoDetalhes = () => {
-    botaoVoltar.style.display = 'none'
-    sectionDetalhesProduto.style.display = 'none'
+    ocultarElemento(botaoVoltar)
+    ocultarElemento(sectionDetalhesProduto)
 }
 ocultarVoltarEsecaoDetalhes()
 
 botaoVoltar.addEventListener('click', () => {
     // Mostrar a lista de produtos
-    sectionProdutos.style.display = 'flex'
+    mostrarElemento(sectionProdutos,'flex')
     // Ocultar pagina detalhes
     ocultarVoltarEsecaoDetalhes()
     resetarSelecao(radios)
