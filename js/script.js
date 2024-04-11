@@ -1,3 +1,4 @@
+import { formatCurrencyBR, formatCurrencyUS, limparFormatoReal } from "./utils.js" 
 const sectionHero = document.querySelector('.hero')
 const sectionProdutos = document.querySelector('.produtos')
 const botaoVoltar = document.querySelector('.voltar')
@@ -60,23 +61,9 @@ const atualizarNumeroItens = () => {
 }
 
 //  Formatar numeros para formato monetario brasileiro e exibir o simbolo R$
-const formatCurrencyBR = new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-    })
 
-const limparFormatoReal = (valor) => {
-    return parseFloat(valor.replace('R$&nbsp;', '').replace('.', '').replace(',', '.'))
-}
 
-const formatCurrencyUS = new Intl.NumberFormat('en-US', {
-        style: 'decimal',
-        useGrouping: false,
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-    })
+
 
 // PAGE PRODUTOS
 const getProducts = async () => { 
@@ -222,10 +209,13 @@ const atualizarCarrinho = (cart) => {
         </tr>`
     })
     // Aula 14 - R$nbsp;1.124,45 -> 112445
-    const total = cart.reduce( (valorAcumulado, item) => {
+    const subtotal = cart.reduce( (valorAcumulado, item) => {
         return valorAcumulado + limparFormatoReal(item.preco)
     },0)
-    document.querySelector('.coluna_total').innerHTML = formatCurrencyBR.format(total)
+    document.querySelector('.coluna_total').innerHTML = formatCurrencyBR.format(subtotal)
+    // Aula 17
+    spanSubTotal.innerHTML=formatCurrencyBR.format(subtotal)
+    spanTotalCompra.innerHTML=formatCurrencyBR.format(subtotal+valorFrete+valorDesconto)
 
     acaoBotaoApagar()
 }
@@ -243,3 +233,14 @@ const acaoBotaoApagar = () => {
     })
     atualizarNumeroItens()
 }
+// Aula 17
+let valorFrete = 0
+let valorDesconto = 0
+const spanSubTotal = document.querySelector('.sub_total')
+const spanFrete = document.querySelector('.valor_frete')
+const spanDesconto = document.querySelector('.valor_desconto')
+const spanTotalCompra = document.querySelector('.total_compra')
+
+spanFrete.innerHTML = formatCurrencyBR.format(valorFrete)
+spanDesconto.innerHTML = formatCurrencyBR.format(valorDesconto)
+

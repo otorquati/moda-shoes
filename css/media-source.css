@@ -84,3 +84,30 @@
         font-size: 16px;
     }
 }
+@media (max-width: 1024px) {
+    .carrinho__detalhes {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .carrinho__detalhes label,
+    .carrinho__detalhes h3 {
+        font-size: 18px;
+    }
+
+    .carrinho__detalhes p {
+        font-size: 14px;
+    }
+}
+
+.identificacao,
+.pagamento {
+    margin-top: 50px;
+    padding-inline: 20px;
+    width: 100%;
+}
+
+.identificacao h2,
+.pagamento h2 {
+    text-align: center;
+}
