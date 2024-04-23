@@ -244,3 +244,27 @@ const spanTotalCompra = document.querySelector('.total_compra')
 spanFrete.innerHTML = formatCurrencyBR.format(valorFrete)
 spanDesconto.innerHTML = formatCurrencyBR.format(valorDesconto)
 
+const sectionIdentificacao = document.querySelector(".identificacao");
+const sectionPagamento = document.querySelector(".pagamento");
+
+ocultarElemento(sectionIdentificacao);
+ocultarElemento(sectionPagamento);
+
+const btnContinuarCarrinho = document.querySelector(".btn_continuar");
+btnContinuarCarrinho.addEventListener("click", () => {
+  ocultarElemento(sectionCarrinho);
+  mostrarElemento(sectionIdentificacao);
+});
+
+const btnFinalizarCadastro = document.querySelector(".btn_finalizar_cadastro");
+btnFinalizarCadastro.addEventListener("click", () => {
+  ocultarElemento(sectionIdentificacao);
+  mostrarElemento(sectionPagamento);
+});
+
+const btnFinalizarCompra = document.querySelector(".btn_finalizar_compra");
+btnFinalizarCompra.addEventListener("click", () => {
+  ocultarElemento(sectionPagamento);
+  mostrarElemento(sectionHero, "flex");
+  mostrarElemento(sectionProdutos, "flex");
+});
