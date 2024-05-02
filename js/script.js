@@ -221,28 +221,28 @@ const atualizarCarrinho = (cart) => {
 }
 
 const acaoBotaoApagar = () => {
-    const btnApagar = document.querySelectorAll('.coluna_apagar span')
-    btnApagar.forEach( botao => {
-        botao.addEventListener('click', () => {
-            const id = botao.getAttribute("data-id")
-            console.log(id)
-            const posicao = cart.findIndex(item => item.id == id)
-            cart.splice(posicao, 1)
-            atualizarCarrinho(cart)
-        })
-    })
-    atualizarNumeroItens()
-}
+  const btnApagar = document.querySelectorAll(".coluna_apagar span");
+  btnApagar.forEach((botao) => {
+    botao.addEventListener("click", () => {
+      const id = botao.getAttribute("data-id");
+      //console.log(id)
+      const posicao = cart.findIndex((item) => item.id == id);
+      cart.splice(posicao, 1);
+      atualizarCarrinho(cart);
+    });
+  });
+  atualizarNumeroItens();
+};
 // Aula 17
-let valorFrete = 0
-let valorDesconto = 0
-const spanSubTotal = document.querySelector('.sub_total')
-const spanFrete = document.querySelector('.valor_frete')
-const spanDesconto = document.querySelector('.valor_desconto')
-const spanTotalCompra = document.querySelector('.total_compra')
+let valorFrete = 0;
+let valorDesconto = 0;
+const spanSubTotal = document.querySelector(".sub_total");
+const spanFrete = document.querySelector(".valor_frete");
+const spanDesconto = document.querySelector(".valor_desconto");
+const spanTotalCompra = document.querySelector(".total_compra");
 
-spanFrete.innerHTML = formatCurrencyBR.format(valorFrete)
-spanDesconto.innerHTML = formatCurrencyBR.format(valorDesconto)
+spanFrete.innerHTML = formatCurrencyBR.format(valorFrete);
+spanDesconto.innerHTML = formatCurrencyBR.format(valorDesconto);
 
 const sectionIdentificacao = document.querySelector(".identificacao");
 const sectionPagamento = document.querySelector(".pagamento");
@@ -256,45 +256,60 @@ btnContinuarCarrinho.addEventListener("click", () => {
   mostrarElemento(sectionIdentificacao);
 });
 
+// Aula 20 - Validações
+const formularioIdentificacao = document.querySelector(".form_identificacao");
+const todosCamposObrigatorios = document.querySelectorAll("[required]");
+const todosCampos = document.querySelectorAll("input");
+
+const pegarDados = () => {
+  const dados = {};
+  todosCampos.forEach((campo) => {
+    dados[campo.id] = campo.value.trim();
+  });
+  return dados;
+};
+
 const btnFinalizarCadastro = document.querySelector(".btn_finalizar_cadastro");
 btnFinalizarCadastro.addEventListener("click", (event) => {
-  // ocultarElemento(sectionIdentificacao);
-  // mostrarElemento(sectionPagamento);
   event.preventDefault();
-  const nome = document.querySelector("#nome").value;
-  const email = document.querySelector("#email").value;
-  const telefone = document.querySelector("#tel").value;
-  const cep = document.querySelector("#cep1").value;
-  const endereco = document.querySelector("#endereco").value;
-  const numero = document.querySelector("#numero").value;
-  const bairro = document.querySelector("#bairro").value;
-  const complemento = document.querySelector("#complemento").value;
-  const cidade = document.querySelector("#cidade").value;
-  const estado = document.querySelector("#estado").value;
-  const concordo = document.querySelector("#concordo").value;
 
-  // validações
+  // Validações de envio
 
-  const cadastro = {
-    nome,
-    email,
-    telefone,
-    cep,
-    endereco,
-    numero,
-    bairro,
-    complemento,
-    cidade,
-    estado,
-    concordo,
-  };
-
-  console.log(cadastro);
+  // Pegar dados
+  console.log(pegarDados());
 });
 
+// Validação onBlur
+todosCamposObrigatorios.forEach((campo) => {
+  const emailRegex = /\S+@\S+\.\S+/;
+  campo.addEventListener("blur", (e) => {
+    if (campo.value !== "" && e.target.type !== "email") {
+      campo.classList.add("campo-valido");
+      campo.classList.remove("campo-invalido");
+      campo.nextElementSibling.textContent = "";
+    } else {
+      campo.classList.add("campo-invalido");
+      campo.classList.remove("campo-valido");
+      campo.nextElementSibling.textContent = `${campo.id} é obrigatório`;
+    }
+
+    if (emailRegex.test(e.target.value)) {
+      campo.classList.add("campo-valido");
+      campo.classList.remove("campo-invalido");
+      campo.nextElementSibling.textContent = "";
+    }
+    if (e.target.type === "checkbox" && !e.target.checked) {
+      campo.parentElement.classList.add("erro");
+    } else {
+      campo.parentElement.classList.remove("erro");
+    }
+  });
+});
 const btnFinalizarCompra = document.querySelector(".btn_finalizar_compra");
 btnFinalizarCompra.addEventListener("click", () => {
   ocultarElemento(sectionPagamento);
   mostrarElemento(sectionHero, "flex");
   mostrarElemento(sectionProdutos, "flex");
 });
+
+

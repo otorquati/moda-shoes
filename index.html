@@ -231,50 +231,61 @@
             <form class="form_identificacao">
                 <div class="input">
                     <label for="nome">Nome Completo</label>
-                    <input type="text" class="input" id="nome" required />
+                    <input type="text" class="" id="nome" required />
+                    <span class="erro"></span>
                 </div>
                 <div class="input">
                     <label for="email">Seu melhor e-mail</label>
-                    <input type="text" class="input" id="email" required autocomplete="none"/>
+                    <input type="email" class="" id="email" required />
+                    <span class="erro"></span>
                 </div>
                 <div class="input">
                     <label for="tel">Telefone</label>
-                    <input type="text" class="input" id="tel" required autocomplete="none"/>
+                    <input type="text" class="" id="tel" required placeholder="(99) 999-999-999"/>
+                    <span class="erro"></span>
                 </div>
                 <div class="input">
                     <label for="cep1">CEP*</label>
-                    <input type="text" class="input" id="cep1" maxlenght="9" placeholder="99999-999" required />
+                    <input type="text" class="" id="cep1" maxlenght="9" placeholder="99999-999" required />
+                    <span class="erro"></span>
                 </div>
                 <div class="input">
                     <label for="endereco">Endereço*</label>
-                    <input type="text" class="input" id="endereco" required />
+                    <input type="text" class="" id="endereco" required />
+                    <span class="erro"></span>
                 </div>
                 <div class="input">
                     <label for="numero">Número*</label>
-                    <input type="text" class="input" id="numero" maxlength="10" required>
+                    <input type="text" class="" id="numero" maxlength="10" required>
+                    <span class="erro"></span>
                 </div>
                 <div class="input">
                     <label for="bairro">Bairro*</label>
-                    <input type="text" class="input" id="bairro" required />
+                    <input type="text" class="" id="bairro" required />
+                    <span class="erro"></span>
                 </div>
                 <div class="input">
                     <label for="complemento">Complemento</label>
-                    <input type="text" class="input" id="complemento">
+                    <input type="text" class="" id="complemento">
+                    <span class="erro"></span>
                 </div>
                 <div class="input">
                     <label for="cidade">Cidade*</label>
-                    <input type="text" class="input" id="cidade" required>
+                    <input type="text" class="" id="cidade" required>
+                    <span class="erro"></span>
                 </div>
                 <div class="input">
                     <label for="estado">Estado*</label>
-                    <input type="text" class="input" id="estado" maxlength="2" required />
+                    <input type="text" class="" id="estado" maxlength="2" required />
+                    <span class="erro"></span>
                 </div>
                 <div class="bloco">
                     <input type="checkbox" class="checkbox" id="concordo" required>
+                    <span class="erro"></span>
                     <label for="concordo">Concordo com a polÍtica de Privacidade e Termos de Uso.*</label>
                 </div>
                 <div class="botao">
-                    <button type="button" class="btn_finalizar_cadastro">Finalizar cadrastro</button>
+                    <button type="submit" class="btn_finalizar_cadastro">Finalizar cadastro</button>
                 </div>
             </form>
         </section>
