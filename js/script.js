@@ -269,11 +269,32 @@ const pegarDados = () => {
   return dados;
 };
 
+const validacaoDoFormulario = () => {
+  const isEmpty = campoObrigatorio.value.trim() === "";
+  const isNotChecked =
+    campoObrigatorio.type === "çheckbox" && !campoObrigatorio.checked;
+
+  if (isEmpty) {
+    campoObrigatorio.classList.add("campo-invalido");
+    campoObrigatorio.nextElementSibling.textContent = `${campoObrigatorio} obrigatório`;
+  } else {
+    campoObrigatorio.classList.add("campo-valido");
+    campoObrigatorio.classList.remove("campo-invalido");
+    campoObrigatorio.nextElementSibling.textContent = "";
+  }
+  if (isNotChecked) {
+    campoObrigatorio.parentElement.classList.add("erro");
+  } else {
+    campoObrigatorio.parentElement.classList.remove("erro");
+  }
+};
+    
 const btnFinalizarCadastro = document.querySelector(".btn_finalizar_cadastro");
 btnFinalizarCadastro.addEventListener("click", (event) => {
   event.preventDefault();
 
   // Validações de envio
+  validacaoDoFormulario();
 
   // Pegar dados
   console.log(pegarDados());
