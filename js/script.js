@@ -258,8 +258,9 @@ btnContinuarCarrinho.addEventListener("click", () => {
 
 // Aula 20 - Validações
 const formularioIdentificacao = document.querySelector(".form_identificacao");
-const todosCamposObrigatorios = document.querySelectorAll("[required]");
-const todosCampos = document.querySelectorAll("input");
+const todosCamposObrigatorios =
+  formularioIdentificacao.querySelectorAll("[required]");
+const todosCampos = formularioIdentificacao.querySelectorAll("input");
 
 const pegarDados = () => {
   const dados = {};
@@ -270,25 +271,31 @@ const pegarDados = () => {
 };
 
 const validacaoDoFormulario = () => {
-  const isEmpty = campoObrigatorio.value.trim() === "";
-  const isNotChecked =
-    campoObrigatorio.type === "çheckbox" && !campoObrigatorio.checked;
+  let formularioValido = true;
+  todosCamposObrigatorios.forEach((campoObrigatorio) => {
+    const isEmpty = campoObrigatorio.value.trim() === "";
+    const isNotChecked =
+      campoObrigatorio.type === "checkbox" && !campoObrigatorio.checked;
 
-  if (isEmpty) {
-    campoObrigatorio.classList.add("campo-invalido");
-    campoObrigatorio.nextElementSibling.textContent = `${campoObrigatorio} obrigatório`;
-  } else {
-    campoObrigatorio.classList.add("campo-valido");
-    campoObrigatorio.classList.remove("campo-invalido");
-    campoObrigatorio.nextElementSibling.textContent = "";
-  }
-  if (isNotChecked) {
-    campoObrigatorio.parentElement.classList.add("erro");
-  } else {
-    campoObrigatorio.parentElement.classList.remove("erro");
-  }
+    if (isEmpty) {
+      campoObrigatorio.classList.add("campo-invalido");
+      campoObrigatorio.nextElementSibling.textContent = `${campoObrigatorio.id} obrigatório`;
+      formularioValido = false;
+    } else {
+      campoObrigatorio.classList.add("campo-valido");
+      campoObrigatorio.classList.remove("campo-invalido");
+      campoObrigatorio.nextElementSibling.textContent = "";
+    }
+    if (isNotChecked) {
+      campoObrigatorio.parentElement.classList.add("erro");
+      formularioValido = false;
+    } else {
+      campoObrigatorio.parentElement.classList.remove("erro");
+    }
+  });
+  return formularioValido;
 };
-    
+
 const btnFinalizarCadastro = document.querySelector(".btn_finalizar_cadastro");
 btnFinalizarCadastro.addEventListener("click", (event) => {
   event.preventDefault();
@@ -297,7 +304,9 @@ btnFinalizarCadastro.addEventListener("click", (event) => {
   validacaoDoFormulario();
 
   // Pegar dados
-  console.log(pegarDados());
+  if (validacaoDoFormulario()) {
+    console.log(pegarDados());
+  }
 });
 
 // Validação onBlur
@@ -326,6 +335,7 @@ todosCamposObrigatorios.forEach((campo) => {
     }
   });
 });
+
 const btnFinalizarCompra = document.querySelector(".btn_finalizar_compra");
 btnFinalizarCompra.addEventListener("click", () => {
   ocultarElemento(sectionPagamento);
