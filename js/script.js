@@ -303,7 +303,7 @@ btnFinalizarCadastro.addEventListener("click", (event) => {
   // Validações de envio
   validacaoDoFormulario();
 
-  // Pegar dados
+  // Pegar dados - implementado na aula 21
   if (validacaoDoFormulario()) {
     console.log(pegarDados());
   }
@@ -343,4 +343,33 @@ btnFinalizarCompra.addEventListener("click", () => {
   mostrarElemento(sectionProdutos, "flex");
 });
 
+// Aula 22
+const buscarCEP = async (cep) => {
+  const url = `https://viacep.com.br/ws/${cep}/json/`;
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
+};
 
+document.querySelector("#cep1").addEventListener("blur", async (e) => {
+  const cep = e.target.value;
+  if (cep) {
+    let resposta = await buscarCEP(cep);
+    if (!resposta.erro) {
+      document.querySelector("#endereco").value = resposta.logradouro;
+      document.querySelector("#bairro").value = resposta.bairro;
+      document.querySelector("#cidade").value = resposta.localidade;
+      document.querySelector("#estado").value = resposta.uf;
+    } else {
+      document.querySelector("#endereco").value = "";
+      document.querySelector("#bairro").value = "";
+      document.querySelector("#cidade").value = "";
+      document.querySelector("#estado").value = "";
+    }
+  } else {
+    document.querySelector("#endereco").value = "";
+    document.querySelector("#bairro").value = "";
+    document.querySelector("#cidade").value = "";
+    document.querySelector("#estado").value = "";
+  }
+});
