@@ -351,25 +351,32 @@ const buscarCEP = async (cep) => {
   return data;
 };
 
+// Aula 23 - Refatorando o código
 document.querySelector("#cep1").addEventListener("blur", async (e) => {
   const cep = e.target.value;
-  if (cep) {
-    let resposta = await buscarCEP(cep);
-    if (!resposta.erro) {
-      document.querySelector("#endereco").value = resposta.logradouro;
-      document.querySelector("#bairro").value = resposta.bairro;
-      document.querySelector("#cidade").value = resposta.localidade;
-      document.querySelector("#estado").value = resposta.uf;
-    } else {
-      document.querySelector("#endereco").value = "";
-      document.querySelector("#bairro").value = "";
-      document.querySelector("#cidade").value = "";
-      document.querySelector("#estado").value = "";
-    }
-  } else {
-    document.querySelector("#endereco").value = "";
-    document.querySelector("#bairro").value = "";
-    document.querySelector("#cidade").value = "";
-    document.querySelector("#estado").value = "";
+  if (!cep) {
+    limparCampos();
+    return;
   }
+  const resposta = await buscarCEP(cep);
+  if (resposta.erro) {
+    limparCampos();
+    return;
+  }
+  preencherCampos(resposta);
+  document.querySelector("#numero").focus();
 });
+
+const preencherCampos = (resposta) => {
+  document.querySelector("#endereco").value = resposta.logradouro;
+  document.querySelector("#bairro").value = resposta.bairro;
+  document.querySelector("#cidade").value = resposta.localidade;
+  document.querySelector("#estado").value = resposta.uf;
+};
+
+const limparCampos = () => {
+  document.querySelector("#endereco").value = "";
+  document.querySelector("#bairro").value = "";
+  document.querySelector("#cidade").value = "";
+  document.querySelector("#estado").value = "";
+};
