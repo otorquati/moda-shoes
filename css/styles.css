@@ -49,8 +49,13 @@ body {
 
 .btn__carrinho {
     position: relative;
-    display: inline-block;
+    display: flex;
 }
+
+.btn__carrinho_icone {
+    position: relative;
+}
+
 
 .btn__carrinho span {
     margin-right: 10px;
