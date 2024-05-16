@@ -402,3 +402,58 @@ const limparCampos = () => {
   document.querySelector("#cidade").value = "";
   document.querySelector("#estado").value = "";
 };
+
+const btnOpenLogin = document.querySelector("#btn_open_login");
+const modalLogin = document.querySelector(".modal_login");
+const overlayLogin = document.querySelector(".modal_overlay");
+const btnCloseLogin = document.querySelector(".btn_close_login");
+
+btnOpenLogin.addEventListener("click", () => {
+  mostrarModal();
+});
+
+document.addEventListener("click", (event) => {
+  if (event.target === overlayLogin || event.target === btnCloseLogin) {
+    fecharModal();
+  }
+});
+
+const mostrarModal = () => {
+  modalLogin.classList.add("show");
+  overlayLogin.classList.add("show");
+  modalLogin.classList.remove("hidden");
+  overlayLogin.classList.remove("hidden");
+};
+
+const fecharModal = () => {
+  modalLogin.classList.remove("show");
+  overlayLogin.classList.remove("show");
+  modalLogin.classList.add("hidden");
+  overlayLogin.classList.add("hidden");
+};
+
+// Controle de login
+const nomeUsuario = document.querySelector("#nome_usuario");
+const btnLogout = document.querySelector("#btn_logout");
+const formularioLogar = document.querySelector(".form_logar");
+const emailLogin = document.querySelector("#email_login");
+const senhaLogin = document.querySelector("#senha_login");
+
+ocultarElemento(btnLogout); // econder o botao Sair
+
+formularioLogar.addEventListener("submit", (e) => {
+  e.preventDefault();
+  // pegar dados e validar para autorizar entrada
+  console.log(emailLogin.value, senhaLogin.value);
+  nomeUsuario.innerHTML = emailLogin.value;
+  mostrarElemento(btnLogout);
+  formularioLogar.reset();
+  fecharModal();
+});
+
+const logout = () => {
+  ocultarElemento(btnLogout);
+  nomeUsuario.innerHTML = "";
+};
+
+btnLogout.addEventListener("click", logout);
