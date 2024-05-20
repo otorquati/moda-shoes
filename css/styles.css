@@ -291,12 +291,13 @@ h6 {
     width: 100%;
 }
 
-.botao button {
+.botao button, .btn_continuar, .btn_fazer_login, .btn_criar_conta {
     background-color: var(--dark);
     color: var(--white);
     width: 100%;
     height: 50px;
     border-radius: 50px;
+    background-color: var(--dark);
     border: 0;
     cursor: pointer;
     font-size: 16px;
@@ -595,13 +596,13 @@ tfoot {
 }
 
 /* modal login ou pop-up login */
-.modal_login {
+.modal_login, .modal_cadastrar_usuario {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 300px;
-    height: 300px;
+    height: auto;
     background-color: var(--white-soft);
     padding: 20px;
     border-radius: 5px;
@@ -609,11 +610,11 @@ tfoot {
     z-index: 10; /*Certifique-se que o pop-up apareça acima de outro conteúdo */
 }
 
-.modal_login h2 {
+.modal_login, .modal_cadastrar_usuario h2 {
     text-align: center;
 }
 
-.modal_overlay {
+.modal_overlay, .modal_overlay_cadastrar {
     position: fixed;
     top: 0;
     left: 0;
@@ -623,15 +624,15 @@ tfoot {
     z-index: 9; /* para posicionar atrás do pop-up */
 }
 
-.modal_login.hidden, .modal_overlay.hidden {
+.modal_login.hidden, .modal_overlay.hidden, .hidden {
     display: none;
 }
 
-.modal_login.show, .modal_overlay.show {
+.modal_login.show, .modal_overlay.show, .show{
     display: block;
 }
 
-.btn_close_login {
+.btn_close_login, .btn_close_cadastrar {
     position: absolute;
     right: 16px;
     top: 20px;
@@ -644,12 +645,65 @@ tfoot {
     border: 1px solid #ccc;
 }
 
-.btn_close_login:hover {
+.btn_close_login:hover, .btn_close_cadastrar:hover {
     font-weight: bold;
     color: #fff;
     background-color: #222;
 }
 
-.modal_login .botao {
+.modal_login .botao, .botao {
     margin-top: 20px;
+}
+
+/* modal cadastrar usuário */
+.centralizar {
+    text-align: center;
+}
+
+.link_cadastrar {
+    color: var(--dark);
+    cursor:pointer;
+    text-decoration: none;  
+}
+
+.link_cadastrar:hover {
+    text-decoration: underline;
+}
+
+/* Aula 27 */
+.identifique_se{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 70px;
+    gap: 20px;
+}
+
+.identifique_se span {
+    text-align: center;
+}
+
+.identifique_se h2, .identifique_se h3 {
+    margin-bottom: 20px;
+}
+
+.criar_conta, .entrar {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn {
+    width: 100%;
+    height: 50px;
+    border-radius: 50px;
+    background-color: #ccc;
+    color: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

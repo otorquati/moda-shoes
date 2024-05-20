@@ -271,7 +271,9 @@ ocultarElemento(sectionPagamento);
 const btnContinuarCarrinho = document.querySelector(".btn_continuar");
 btnContinuarCarrinho.addEventListener("click", () => {
   ocultarElemento(sectionCarrinho);
-  mostrarElemento(sectionIdentificacao);
+  // Aula 27
+  // mostrarElemento(sectionIdentificacao);
+  mostrarElemento(sectionIdentifiquese, "flex");
 });
 
 // Aula 20 - Validações
@@ -407,9 +409,12 @@ const btnOpenLogin = document.querySelector("#btn_open_login");
 const modalLogin = document.querySelector(".modal_login");
 const overlayLogin = document.querySelector(".modal_overlay");
 const btnCloseLogin = document.querySelector(".btn_close_login");
+const btnFazerLogin = document.querySelector(".btn_fazer_login"); // Aula 27
 
-btnOpenLogin.addEventListener("click", () => {
-  mostrarModal();
+document.addEventListener("click", (e) => {
+  if (e.target === btnOpenLogin || e.target === btnFazerLogin) {
+    mostrarModal();
+  }
 });
 
 document.addEventListener("click", (event) => {
@@ -421,15 +426,11 @@ document.addEventListener("click", (event) => {
 const mostrarModal = () => {
   modalLogin.classList.add("show");
   overlayLogin.classList.add("show");
-  modalLogin.classList.remove("hidden");
-  overlayLogin.classList.remove("hidden");
 };
 
 const fecharModal = () => {
   modalLogin.classList.remove("show");
   overlayLogin.classList.remove("show");
-  modalLogin.classList.add("hidden");
-  overlayLogin.classList.add("hidden");
 };
 
 // Controle de login
@@ -449,6 +450,9 @@ formularioLogar.addEventListener("submit", (e) => {
   mostrarElemento(btnLogout);
   formularioLogar.reset();
   fecharModal();
+  // Aula 27
+  ocultarElemento(sectionIdentifiquese);
+  mostrarElemento(sectionPagamento);
 });
 
 const logout = () => {
@@ -457,3 +461,72 @@ const logout = () => {
 };
 
 btnLogout.addEventListener("click", logout);
+
+// Aula 26 - Cadastrar usuários
+const modalCadastrarUsuario = document.querySelector(
+  ".modal_cadastrar_usuario"
+);
+const modalOverlayCadastrar = document.querySelector(
+  ".modal_overlay_cadastrar"
+);
+const btnCloseCadastrar = document.querySelector(".btn_close_cadastrar");
+const linkCadastrar = document.querySelector(".link_cadastrar");
+const btnCriarConta = document.querySelector(".btn_criar_conta");
+
+document.addEventListener("click", (e) => {
+  if (e.target === linkCadastrar || e.target === btnCriarConta) {
+    e.preventDefault();
+    fecharModal();
+    modalCadastrarUsuario.classList.add("show");
+    modalOverlayCadastrar.classList.add("show");
+  }
+});
+
+btnCloseCadastrar.addEventListener("click", () => {
+  modalCadastrarUsuario.classList.remove("show");
+  overlayCadastrarUsuario.classList.remove("show");
+  moda;
+});
+
+const formularioCadastrarUsuario = document.querySelector(
+  ".form_cadastrar_usuario"
+);
+const formAviso = document.querySelector(".form_aviso");
+
+formularioCadastrarUsuario.addEventListener("submit", (e) => {
+  e.preventDefault();
+  // pegar dados, validar e autenticar
+  const email = document.querySelector("#email_usuario").value;
+  const senha = document.querySelector("#senha_usuario").value;
+  const confirmaSenha = document.querySelector("#confirma_senha_usuario").value;
+  console.log(senha, confirmaSenha);
+  //validação
+  const mensagemSenhaInvalida =
+    senha.length < 5
+      ? "Digite uma senha com no mínimo 5 caracteres"
+      : "Senha e confirmação SÃO diferentes";
+  if (senha.length < 5 || senha !== confirmaSenha) {
+    formAviso.innerHTML = mensagemSenhaInvalida;
+    return;
+  }
+  // armazenar e autenticar - login
+  formularioCadastrarUsuario.reset();
+  formAviso.innerHTML = "";
+  modalCadastrarUsuario.classList.remove("show");
+  modalOverlayCadastrar.classList.remove("show");
+
+  const usuario = {
+    email,
+    senha,
+  };
+  console.log(usuario);
+  nomeUsuario.innerHTML = usuario.email;
+  mostrarElemento(btnLogout);
+  // Aula 27
+  ocultarElemento(sectionIdentifiquese);
+  mostrarElemento(sectionIdentificacao);
+});
+
+// Aula 27
+const sectionIdentifiquese = document.querySelector(".identifique_se");
+ocultarElemento(sectionIdentifiquese);
