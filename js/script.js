@@ -5,7 +5,12 @@ const botaoVoltar = document.querySelector('.voltar')
 const sectionDetalhesProduto = document.querySelector('.produto__detalhes')
 const sectionCarrinho = document.querySelector('.carrinho')
 
+// Aula 28 - Verificar se usuário está logado
+let usuarioLogado = false;
+console.log('Usuário Logado', usuarioLogado)
+
 // FUNÇÕES ÚTEIS
+// Mostrar / Ocultar elemento
 const ocultarElemento = (elemento) => {
     elemento.style.display='none'
 }
@@ -250,7 +255,12 @@ const acaoBotaoApagar = () => {
     });
   });
   atualizarNumeroItens();
+  // Aula 28
+  if (numeroItens.innerHTML <= 0) {
+    irParaHome();
+  }
 };
+
 // Aula 17
 let valorFrete = 0;
 let valorDesconto = 0;
@@ -444,20 +454,36 @@ ocultarElemento(btnLogout); // econder o botao Sair
 
 formularioLogar.addEventListener("submit", (e) => {
   e.preventDefault();
+
   // pegar dados e validar para autorizar entrada
   console.log(emailLogin.value, senhaLogin.value);
   nomeUsuario.innerHTML = emailLogin.value;
   mostrarElemento(btnLogout);
   formularioLogar.reset();
   fecharModal();
+  // Aula 28 - Verificar se usuário está logado
+  usuarioLogado = true;
+  console.log("Usuário Logado", usuarioLogado);
   // Aula 27
   ocultarElemento(sectionIdentifiquese);
-  mostrarElemento(sectionPagamento);
+  /// Aula 28
+  mostrarElemento(sectionCarrinho);
 });
+if (numeroItens.innerHTML > 0) {
+  ocultarElemento(sectionHero);
+  ocultarElemento(sectionProdutos);
+  ocultarVoltarEsecaoDetalhes();
+  ocultarElemento(sectioCarrinho);
+  ocultarElemento(sectionPagamento);
+}
 
 const logout = () => {
   ocultarElemento(btnLogout);
   nomeUsuario.innerHTML = "";
+  // Aula 28 - Verificar se usuário está logado
+  usuarioLogado = false;
+  console.log("Usuário Logado", usuarioLogado);
+  irParaHome();
 };
 
 btnLogout.addEventListener("click", logout);
