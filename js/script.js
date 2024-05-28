@@ -20,6 +20,17 @@ const mostrarElemento = (elemento, display='block') => {
 }
 
 // NAVEGAÇÃO
+// Aula 28 - Função ir para home
+const irParaHome = () => {
+  ocultarElemento(sectionPagamento)
+  ocultarElemento(sectionIdentificacao)
+  ocultarElemento(sectionIdentifiquese)
+  ocultarElemento(sectionCarrinho)
+  ocultarElemento(botaoVoltar)
+  ocultarElemento(sectionDetalhesProduto)
+  mostrarElemento(sectionHero, 'flex')
+  mostrarElemento(sectionProdutos, 'flex' )
+}
 // Oculta botão voltar e detalhes de produto
 const ocultarVoltarEsecaoDetalhes = () => {
     ocultarElemento(botaoVoltar)
@@ -40,19 +51,33 @@ const btnCarrinho = document.querySelector('.btn__carrinho .icons')
 
 btnCarrinho.addEventListener("click", () => {
   if (numeroItens.innerHTML > 0) {
-    sectionCarrinho.style.display = "block";
+    mostrarElemento(sectionCarrinho);
+    ocultarElemento(sectionHero);
+    ocultarElemento(sectionProdutos);
+    ocultarElemento(sectionDetalhesProduto);
+    ocultarElemento(sectionIdentificacao);
+    ocultarElemento(sectionPagamento);
+  }
+  // Aula 28
+  ocultarElemento(sectionIdentifiquese);
+  if (usuarioLogado) {
+    ocultarElemento(sectionIdentifiquese);
+    ocultarElemento(sectionPagamento);
+    /*sectionCarrinho.style.display = "block";
     sectionHero.style.display = "none";
     sectionProdutos.style.display = "none";
-    sectionDetalhesProduto.style.display = "nome";
+    sectionDetalhesProduto.style.display = "nome";*/
   }
 });
 
 const btnHome = document.querySelector(".link_home");
 btnHome.addEventListener("click", (event) => {
   event.preventDefault();
+  /*
   sectionCarrinho.style.display = "none";
   sectionHero.style.display = "flex";
-  sectionProdutos.style.display = "flex";
+  sectionProdutos.style.display = "flex";*/
+  irParaHome();
   /* ajuste aula 12 */
   ocultarVoltarEsecaoDetalhes();
 });
@@ -281,8 +306,13 @@ ocultarElemento(sectionPagamento);
 const btnContinuarCarrinho = document.querySelector(".btn_continuar");
 btnContinuarCarrinho.addEventListener("click", () => {
   ocultarElemento(sectionCarrinho);
-  // Aula 27
   // mostrarElemento(sectionIdentificacao);
+  // Aula 27
+  // Aula 28
+  if (usuarioLogado) {
+    mostrarElemento(sectionPagamento);
+    return;
+  }
   mostrarElemento(sectionIdentifiquese, "flex");
 });
 
@@ -423,7 +453,7 @@ const btnFazerLogin = document.querySelector(".btn_fazer_login"); // Aula 27
 
 document.addEventListener("click", (e) => {
   if (e.target === btnOpenLogin || e.target === btnFazerLogin) {
-    mostrarModal();
+    !usuarioLogado && mostrarModal(); // Ajuste da Aula 28
   }
 });
 
@@ -473,7 +503,7 @@ if (numeroItens.innerHTML > 0) {
   ocultarElemento(sectionHero);
   ocultarElemento(sectionProdutos);
   ocultarVoltarEsecaoDetalhes();
-  ocultarElemento(sectioCarrinho);
+  ocultarElemento(sectionCarrinho);
   ocultarElemento(sectionPagamento);
 }
 
@@ -550,7 +580,15 @@ formularioCadastrarUsuario.addEventListener("submit", (e) => {
   mostrarElemento(btnLogout);
   // Aula 27
   ocultarElemento(sectionIdentifiquese);
-  mostrarElemento(sectionIdentificacao);
+  //mostrarElemento(sectionIdentificacao);
+  // Aula 28
+  if (numeroItens.innerHTML > 0) {
+    ocultarElemento(sectionHero);
+    ocultarElemento(sectionProdutos);
+    ocultarVoltarEsecaoDetalhes();
+    ocultarElemento(sectionCarrinho);
+    mostrarElemento(sectionPagamento);
+  }
 });
 
 // Aula 27
