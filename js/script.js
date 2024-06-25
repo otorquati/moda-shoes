@@ -31,6 +31,22 @@ const irParaHome = () => {
   mostrarElemento(sectionHero, 'flex')
   mostrarElemento(sectionProdutos, 'flex' )
 }
+
+// Aula 29
+const irParaPagamento =() => {  
+  // Aula 27
+  ocultarElemento(sectionIdentifiquese);
+  //mostrarElemento(sectionIdentificacao);
+  // Aula 28
+  if (numeroItens.innerHTML > 0) {
+    ocultarElemento(sectionHero);
+    ocultarElemento(sectionProdutos);
+    ocultarVoltarEsecaoDetalhes();
+    ocultarElemento(sectionCarrinho);
+    mostrarElemento(sectionPagamento);
+  }
+}
+
 // Oculta botão voltar e detalhes de produto
 const ocultarVoltarEsecaoDetalhes = () => {
     ocultarElemento(botaoVoltar)
@@ -211,7 +227,7 @@ const resetarSelecao = (radios) => {
 
 // PAGE CARRINHO
 // criar array do carrinho
-const cart = [];
+let cart = [];
 const btnAddCarrinho = document.querySelector(".btn__add_cart");
 btnAddCarrinho.addEventListener("click", () => {
   const produto = {
@@ -227,9 +243,8 @@ btnAddCarrinho.addEventListener("click", () => {
   cart.push(produto);
   // Ocultar Botão Voltar e detalhes_produtos
   ocultarVoltarEsecaoDetalhes();
-  sectionHero.style.display = "none";
-  sectionCarrinho.style.display = "block";
-
+  ocultarElemento(sectionHero);
+  mostrarElemento(sectionCarrinho);
   atualizarCarrinho(cart);
   atualizarNumeroItens();
 });
@@ -267,7 +282,23 @@ const atualizarCarrinho = (cart) => {
   );
 
   acaoBotaoApagar();
+  criarCompra(); // Aula 29
 };
+
+// aula 29
+let compra = {}
+
+const criarCompra = () => {
+  console.log(cart)
+  const dataAtual = new Date().toLocaleDateString()
+  compra = {
+    dataCompra: dataAtual,
+    carrinho: cart,
+    totalCompra: limparFormatoReal(spanTotalCompra.innerHTML)
+  }
+  localStorage.setItem('carrinho', JSON.stringify(compra))
+  console.log(JSON.parse(localStorage.getItem('carrinho')))
+}
 
 const acaoBotaoApagar = () => {
   const btnApagar = document.querySelectorAll(".coluna_apagar span");
@@ -400,12 +431,13 @@ todosCamposObrigatorios.forEach((campo) => {
   });
 });
 
-const btnFinalizarCompra = document.querySelector(".btn_finalizar_compra");
-btnFinalizarCompra.addEventListener("click", () => {
-  ocultarElemento(sectionPagamento);
-  mostrarElemento(sectionHero, "flex");
-  mostrarElemento(sectionProdutos, "flex");
-});
+// Aula 29
+// const btnFinalizarCompra = document.querySelector(".btn_finalizar_compra");
+// btnFinalizarCompra.addEventListener("click", () => {
+//   ocultarElemento(sectionPagamento);
+//   mostrarElemento(sectionHero, "flex");
+//   mostrarElemento(sectionProdutos, "flex");
+// });
 
 // Aula 22
 const buscarCEP = async (cep) => {
@@ -494,18 +526,11 @@ formularioLogar.addEventListener("submit", (e) => {
   // Aula 28 - Verificar se usuário está logado
   usuarioLogado = true;
   console.log("Usuário Logado", usuarioLogado);
-  // Aula 27
-  ocultarElemento(sectionIdentifiquese);
-  /// Aula 28
-  mostrarElemento(sectionCarrinho);
+  // Aula 29
+  localStorage.setItem("nomeUsuario", nomeUsuario.innerHTML);
+  console.log(localStorage.getItem("nomeUsuario"));
+  irParaPagamento();
 });
-if (numeroItens.innerHTML > 0) {
-  ocultarElemento(sectionHero);
-  ocultarElemento(sectionProdutos);
-  ocultarVoltarEsecaoDetalhes();
-  ocultarElemento(sectionCarrinho);
-  ocultarElemento(sectionPagamento);
-}
 
 const logout = () => {
   ocultarElemento(btnLogout);
@@ -514,6 +539,9 @@ const logout = () => {
   usuarioLogado = false;
   console.log("Usuário Logado", usuarioLogado);
   irParaHome();
+  // Aula 29
+  localStorage.removeItem("nomeUsuario");
+  localStorage.removeItem("carrinho");
 };
 
 btnLogout.addEventListener("click", logout);
@@ -578,19 +606,54 @@ formularioCadastrarUsuario.addEventListener("submit", (e) => {
   console.log(usuario);
   nomeUsuario.innerHTML = usuario.email;
   mostrarElemento(btnLogout);
-  // Aula 27
-  ocultarElemento(sectionIdentifiquese);
-  //mostrarElemento(sectionIdentificacao);
   // Aula 28
-  if (numeroItens.innerHTML > 0) {
-    ocultarElemento(sectionHero);
-    ocultarElemento(sectionProdutos);
-    ocultarVoltarEsecaoDetalhes();
-    ocultarElemento(sectionCarrinho);
-    mostrarElemento(sectionPagamento);
-  }
+  usuarioLogado = true;
+  console.log("Usuário logado ", usuarioLogado);
+  // Aula 29
+  localStorage.setItem("nomeUsuario", nomeUsuario.innerHTML);
+  console.log(localStorage.getItem("nomeUsuario"));
+  irParaPagamento();
 });
 
 // Aula 27
 const sectionIdentifiquese = document.querySelector(".identifique_se");
 ocultarElemento(sectionIdentifiquese);
+
+// Aula29
+// pegar os dados do pagamento
+const formularioPagamento = document.querySelector('.form_pagamento')
+const numeroCartao = document.querySelector('#numero_cartao')
+const nomeImpresso = document.querySelector('#nome_impresso')
+const validade = document.querySelector('#validade')
+const codigoSeguranca = document.querySelector('#codigo_seguranca')
+const numeroParcelas = document.querySelector('#numero_parcelas')
+
+formularioPagamento.addEventListener('submit', (e) => {
+    e.preventDefault()
+    let cartao = {
+        numeroCartao: numeroCartao.value,
+        nomeImpresso: nomeImpresso.value,
+        validade: validade.value,
+        codigoSeguranca: codigoSeguranca.value,
+        numeroParcelas: numeroParcelas.value
+    }
+    console.log(cartao)
+
+    // pedido
+    const pedido = {
+        id: 1,
+        usuario: localStorage.getItem('nomeUsuario'),
+        carrinho: JSON.parse(localStorage.getItem('carrinho')),
+        cartao: cartao
+    }
+    localStorage.setItem('pedido', JSON.stringify(pedido))
+    // limpar formulario e ir para home
+    formularioPagamento.reset()
+    irParaHome()
+    cart = []
+    atualizarCarrinho(cart)
+    atualizarNumeroItens()
+    console.log(pedido)
+    console.log(localStorage.getItem('pedido'))
+})
+// /aula 29
