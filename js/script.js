@@ -7,37 +7,29 @@ const sectionCarrinho = document.querySelector('.carrinho')
 
 // Aula 28 - Verificar se usuário está logado
 let usuarioLogado = false;
-console.log('Usuário Logado', usuarioLogado)
-
-// FUNÇÕES ÚTEIS
-// Mostrar / Ocultar elemento
-const ocultarElemento = (elemento) => {
-    elemento.style.display='none'
-}
-
-const mostrarElemento = (elemento, display='block') => {
-    elemento.style.display = display
-}
 
 // NAVEGAÇÃO
-// Aula 28 - Função ir para home
-const irParaHome = () => {
-  ocultarElemento(sectionPagamento)
-  ocultarElemento(sectionIdentificacao)
-  ocultarElemento(sectionIdentifiquese)
-  ocultarElemento(sectionCarrinho)
-  ocultarElemento(botaoVoltar)
-  ocultarElemento(sectionDetalhesProduto)
-  mostrarElemento(sectionHero, 'flex')
-  mostrarElemento(sectionProdutos, 'flex' )
-}
+const ocultarElemento = (elemento) => {
+  elemento.style.display = "none";
+};
 
-// Aula 29
-const irParaPagamento =() => {  
-  // Aula 27
+const mostrarElemento = (elemento, display = "block") => {
+  elemento.style.display = display;
+};
+
+const irParaHome = () => {
+  ocultarElemento(sectionPagamento);
+  ocultarElemento(sectionIdentificacao);
   ocultarElemento(sectionIdentifiquese);
-  //mostrarElemento(sectionIdentificacao);
-  // Aula 28
+  ocultarElemento(sectionCarrinho);
+  ocultarElemento(botaoVoltar);
+  ocultarElemento(sectionDetalhesProduto);
+  mostrarElemento(sectionHero, "flex");
+  mostrarElemento(sectionProdutos, "flex");
+};
+
+const irParaPagamento = () => {
+  ocultarElemento(sectionIdentifiquese);
   if (numeroItens.innerHTML > 0) {
     ocultarElemento(sectionHero);
     ocultarElemento(sectionProdutos);
@@ -45,25 +37,24 @@ const irParaPagamento =() => {
     ocultarElemento(sectionCarrinho);
     mostrarElemento(sectionPagamento);
   }
-}
+};
 
 // Oculta botão voltar e detalhes de produto
 const ocultarVoltarEsecaoDetalhes = () => {
-    ocultarElemento(botaoVoltar)
-    ocultarElemento(sectionDetalhesProduto)
-}
-ocultarVoltarEsecaoDetalhes()
+  ocultarElemento(botaoVoltar);
+  ocultarElemento(sectionDetalhesProduto);
+};
+ocultarVoltarEsecaoDetalhes();
 
-botaoVoltar.addEventListener('click', () => {
-    // Mostrar a lista de produtos
-    mostrarElemento(sectionProdutos,'flex')
-    // Ocultar pagina detalhes
-    ocultarVoltarEsecaoDetalhes()
-    resetarSelecao(radios)
-})
+botaoVoltar.addEventListener("click", () => {
+  // Mostrar a lista de produtos
+  mostrarElemento(sectionProdutos, "flex");
+  // Ocultar pagina detalhes
+  ocultarVoltarEsecaoDetalhes();
+  resetarSelecao(radios);
+});
 
-/* Aula 11 */
-const btnCarrinho = document.querySelector('.btn__carrinho .icons')
+const btnCarrinho = document.querySelector(".btn__carrinho .icons");
 
 btnCarrinho.addEventListener("click", () => {
   if (numeroItens.innerHTML > 0) {
@@ -74,32 +65,20 @@ btnCarrinho.addEventListener("click", () => {
     ocultarElemento(sectionIdentificacao);
     ocultarElemento(sectionPagamento);
   }
-  // Aula 28
   ocultarElemento(sectionIdentifiquese);
   if (usuarioLogado) {
     ocultarElemento(sectionIdentifiquese);
     ocultarElemento(sectionPagamento);
-    /*sectionCarrinho.style.display = "block";
-    sectionHero.style.display = "none";
-    sectionProdutos.style.display = "none";
-    sectionDetalhesProduto.style.display = "nome";*/
   }
 });
 
 const btnHome = document.querySelector(".link_home");
 btnHome.addEventListener("click", (event) => {
   event.preventDefault();
-  /*
-  sectionCarrinho.style.display = "none";
-  sectionHero.style.display = "flex";
-  sectionProdutos.style.display = "flex";*/
   irParaHome();
-  /* ajuste aula 12 */
   ocultarVoltarEsecaoDetalhes();
 });
-// Aula 13 e 14
-// ajuste para ocultar o span dos itens do carrinho
-// NUMERO DE ITENS DO CARRINHO
+
 const numeroItens = document.querySelector(".numero_itens");
 numeroItens.style.display = "none";
 
@@ -109,8 +88,6 @@ const atualizarNumeroItens = () => {
     : (numeroItens.style.display = "none");
   numeroItens.innerHTML = cart.length;
 };
-
-//  Formatar números para formato monetário brasileiro e exibir o simbolo R$
 
 // PAGE PRODUTOS
 const getProducts = async () => {
@@ -194,7 +171,6 @@ details.addEventListener("toggle", () => {
   summary.classList.toggle("icone-recolher");
 });
 
-// Aula 12 */
 // controlar seleção dos inputs radio
 const radios = document.querySelectorAll('input[type="radio"]');
 radios.forEach((radio) => {
@@ -268,37 +244,32 @@ const atualizarCarrinho = (cart) => {
         </tr>`;
   });
 
-  // Aula 14 - R$nbsp;1.124,45 -> 112445
+  // R$nbsp;1.124,45 -> 112445
   const subtotal = cart.reduce((valorAcumulado, item) => {
     return valorAcumulado + limparFormatoReal(item.preco);
   }, 0);
   document.querySelector(".coluna_total").innerHTML =
     formatCurrencyBR.format(subtotal);
 
-  // Aula 17
   spanSubTotal.innerHTML = formatCurrencyBR.format(subtotal);
   spanTotalCompra.innerHTML = formatCurrencyBR.format(
     subtotal + valorFrete + valorDesconto
   );
 
   acaoBotaoApagar();
-  criarCompra(); // Aula 29
+  criarCompra();
 };
 
-// aula 29
-let compra = {}
-
 const criarCompra = () => {
-  console.log(cart)
-  const dataAtual = new Date().toLocaleDateString()
-  compra = {
+  console.log(cart);
+  const dataAtual = new Date().toLocaleDateString();
+  let compra = {
     dataCompra: dataAtual,
     carrinho: cart,
-    totalCompra: limparFormatoReal(spanTotalCompra.innerHTML)
-  }
-  localStorage.setItem('carrinho', JSON.stringify(compra))
-  console.log(JSON.parse(localStorage.getItem('carrinho')))
-}
+    totalCompra: limparFormatoReal(spanTotalCompra.innerHTML),
+  };
+  localStorage.setItem("carrinho", JSON.stringify(compra));
+};
 
 const acaoBotaoApagar = () => {
   const btnApagar = document.querySelectorAll(".coluna_apagar span");
@@ -311,23 +282,19 @@ const acaoBotaoApagar = () => {
     });
   });
   atualizarNumeroItens();
-  // Aula 28
   if (numeroItens.innerHTML <= 0) {
     irParaHome();
   }
 };
 
-// Aula 17
 let valorFrete = 0;
 let valorDesconto = 0;
 const spanSubTotal = document.querySelector(".sub_total");
 const spanFrete = document.querySelector(".valor_frete");
 const spanDesconto = document.querySelector(".valor_desconto");
 const spanTotalCompra = document.querySelector(".total_compra");
-
 spanFrete.innerHTML = formatCurrencyBR.format(valorFrete);
 spanDesconto.innerHTML = formatCurrencyBR.format(valorDesconto);
-
 const sectionIdentificacao = document.querySelector(".identificacao");
 const sectionPagamento = document.querySelector(".pagamento");
 
@@ -337,9 +304,7 @@ ocultarElemento(sectionPagamento);
 const btnContinuarCarrinho = document.querySelector(".btn_continuar");
 btnContinuarCarrinho.addEventListener("click", () => {
   ocultarElemento(sectionCarrinho);
-  // mostrarElemento(sectionIdentificacao);
-  // Aula 27
-  // Aula 28
+
   if (usuarioLogado) {
     mostrarElemento(sectionPagamento);
     return;
@@ -347,7 +312,6 @@ btnContinuarCarrinho.addEventListener("click", () => {
   mostrarElemento(sectionIdentifiquese, "flex");
 });
 
-// Aula 20 - Validações
 const formularioIdentificacao = document.querySelector(".form_identificacao");
 const todosCamposObrigatorios =
   formularioIdentificacao.querySelectorAll("[required]");
@@ -367,7 +331,6 @@ const validacaoDoFormulario = () => {
     const isEmpty = campoObrigatorio.value.trim() === "";
     const isNotChecked =
       campoObrigatorio.type === "checkbox" && !campoObrigatorio.checked;
-
     if (isEmpty) {
       campoObrigatorio.classList.add("campo-invalido");
       campoObrigatorio.nextElementSibling.textContent = `${campoObrigatorio.id} obrigatório`;
@@ -390,13 +353,10 @@ const validacaoDoFormulario = () => {
 const btnFinalizarCadastro = document.querySelector(".btn_finalizar_cadastro");
 btnFinalizarCadastro.addEventListener("click", (event) => {
   event.preventDefault();
-
   // Validações de envio
   validacaoDoFormulario();
-
-  // Pegar dados - implementado na aula 21
+  // Pegar dados 
   if (validacaoDoFormulario()) {
-    console.log(pegarDados());
     localStorage.setItem("dados", JSON.stringify(pegarDados()));
     formularioIdentificacao.reset();
     ocultarElemento(sectionIdentificacao);
@@ -417,7 +377,6 @@ todosCamposObrigatorios.forEach((campo) => {
       campo.classList.remove("campo-valido");
       campo.nextElementSibling.textContent = `${campo.id} é obrigatório`;
     }
-
     if (emailRegex.test(e.target.value)) {
       campo.classList.add("campo-valido");
       campo.classList.remove("campo-invalido");
@@ -431,15 +390,6 @@ todosCamposObrigatorios.forEach((campo) => {
   });
 });
 
-// Aula 29
-// const btnFinalizarCompra = document.querySelector(".btn_finalizar_compra");
-// btnFinalizarCompra.addEventListener("click", () => {
-//   ocultarElemento(sectionPagamento);
-//   mostrarElemento(sectionHero, "flex");
-//   mostrarElemento(sectionProdutos, "flex");
-// });
-
-// Aula 22
 const buscarCEP = async (cep) => {
   const url = `https://viacep.com.br/ws/${cep}/json/`;
   const response = await fetch(url);
@@ -447,7 +397,6 @@ const buscarCEP = async (cep) => {
   return data;
 };
 
-// Aula 23 - Refatorando o código
 document.querySelector("#cep1").addEventListener("blur", async (e) => {
   const cep = e.target.value;
   if (!cep) {
@@ -481,8 +430,7 @@ const btnOpenLogin = document.querySelector("#btn_open_login");
 const modalLogin = document.querySelector(".modal_login");
 const overlayLogin = document.querySelector(".modal_overlay");
 const btnCloseLogin = document.querySelector(".btn_close_login");
-const btnFazerLogin = document.querySelector(".btn_fazer_login"); // Aula 27
-
+const btnFazerLogin = document.querySelector(".btn_fazer_login");
 document.addEventListener("click", (e) => {
   if (e.target === btnOpenLogin || e.target === btnFazerLogin) {
     !usuarioLogado && mostrarModal(); // Ajuste da Aula 28
@@ -494,12 +442,10 @@ document.addEventListener("click", (event) => {
     fecharModal();
   }
 });
-
 const mostrarModal = () => {
   modalLogin.classList.add("show");
   overlayLogin.classList.add("show");
 };
-
 const fecharModal = () => {
   modalLogin.classList.remove("show");
   overlayLogin.classList.remove("show");
@@ -512,41 +458,32 @@ const formularioLogar = document.querySelector(".form_logar");
 const emailLogin = document.querySelector("#email_login");
 const senhaLogin = document.querySelector("#senha_login");
 
-ocultarElemento(btnLogout); // econder o botao Sair
-
+ocultarElemento(btnLogout); // esconder o botao Sair
 formularioLogar.addEventListener("submit", (e) => {
   e.preventDefault();
 
   // pegar dados e validar para autorizar entrada
-  console.log(emailLogin.value, senhaLogin.value);
   nomeUsuario.innerHTML = emailLogin.value;
   mostrarElemento(btnLogout);
   formularioLogar.reset();
   fecharModal();
-  // Aula 28 - Verificar se usuário está logado
+  // Verificar se usuário está logado
   usuarioLogado = true;
-  console.log("Usuário Logado", usuarioLogado);
-  // Aula 29
   localStorage.setItem("nomeUsuario", nomeUsuario.innerHTML);
-  console.log(localStorage.getItem("nomeUsuario"));
   irParaPagamento();
 });
 
 const logout = () => {
   ocultarElemento(btnLogout);
   nomeUsuario.innerHTML = "";
-  // Aula 28 - Verificar se usuário está logado
+  // Verificar se usuário está logado
   usuarioLogado = false;
-  console.log("Usuário Logado", usuarioLogado);
   irParaHome();
-  // Aula 29
   localStorage.removeItem("nomeUsuario");
   localStorage.removeItem("carrinho");
 };
-
 btnLogout.addEventListener("click", logout);
 
-// Aula 26 - Cadastrar usuários
 const modalCadastrarUsuario = document.querySelector(
   ".modal_cadastrar_usuario"
 );
@@ -556,7 +493,6 @@ const modalOverlayCadastrar = document.querySelector(
 const btnCloseCadastrar = document.querySelector(".btn_close_cadastrar");
 const linkCadastrar = document.querySelector(".link_cadastrar");
 const btnCriarConta = document.querySelector(".btn_criar_conta");
-
 document.addEventListener("click", (e) => {
   if (e.target === linkCadastrar || e.target === btnCriarConta) {
     e.preventDefault();
@@ -565,7 +501,6 @@ document.addEventListener("click", (e) => {
     modalOverlayCadastrar.classList.add("show");
   }
 });
-
 btnCloseCadastrar.addEventListener("click", () => {
   modalCadastrarUsuario.classList.remove("show");
   overlayCadastrarUsuario.classList.remove("show");
@@ -576,15 +511,13 @@ const formularioCadastrarUsuario = document.querySelector(
   ".form_cadastrar_usuario"
 );
 const formAviso = document.querySelector(".form_aviso");
-
 formularioCadastrarUsuario.addEventListener("submit", (e) => {
   e.preventDefault();
   // pegar dados, validar e autenticar
   const email = document.querySelector("#email_usuario").value;
   const senha = document.querySelector("#senha_usuario").value;
   const confirmaSenha = document.querySelector("#confirma_senha_usuario").value;
-  console.log(senha, confirmaSenha);
-  //validação
+  // validação
   const mensagemSenhaInvalida =
     senha.length < 5
       ? "Digite uma senha com no mínimo 5 caracteres"
@@ -598,62 +531,50 @@ formularioCadastrarUsuario.addEventListener("submit", (e) => {
   formAviso.innerHTML = "";
   modalCadastrarUsuario.classList.remove("show");
   modalOverlayCadastrar.classList.remove("show");
-
   const usuario = {
     email,
     senha,
   };
-  console.log(usuario);
   nomeUsuario.innerHTML = usuario.email;
   mostrarElemento(btnLogout);
-  // Aula 28
   usuarioLogado = true;
-  console.log("Usuário logado ", usuarioLogado);
-  // Aula 29
   localStorage.setItem("nomeUsuario", nomeUsuario.innerHTML);
-  console.log(localStorage.getItem("nomeUsuario"));
   irParaPagamento();
 });
 
-// Aula 27
 const sectionIdentifiquese = document.querySelector(".identifique_se");
 ocultarElemento(sectionIdentifiquese);
 
-// Aula29
 // pegar os dados do pagamento
-const formularioPagamento = document.querySelector('.form_pagamento')
-const numeroCartao = document.querySelector('#numero_cartao')
-const nomeImpresso = document.querySelector('#nome_impresso')
-const validade = document.querySelector('#validade')
-const codigoSeguranca = document.querySelector('#codigo_seguranca')
-const numeroParcelas = document.querySelector('#numero_parcelas')
+const formularioPagamento = document.querySelector(".form_pagamento");
+const numeroCartao = document.querySelector("#numero_cartao");
+const nomeImpresso = document.querySelector("#nome_impresso");
+const validade = document.querySelector("#validade");
+const codigoSeguranca = document.querySelector("#codigo_seguranca");
+const numeroParcelas = document.querySelector("#numero_parcelas");
 
-formularioPagamento.addEventListener('submit', (e) => {
-    e.preventDefault()
-    let cartao = {
-        numeroCartao: numeroCartao.value,
-        nomeImpresso: nomeImpresso.value,
-        validade: validade.value,
-        codigoSeguranca: codigoSeguranca.value,
-        numeroParcelas: numeroParcelas.value
-    }
-    console.log(cartao)
+formularioPagamento.addEventListener("submit", (e) => {
+  e.preventDefault();
+  let cartao = {
+    numeroCartao: numeroCartao.value,
+    nomeImpresso: nomeImpresso.value,
+    validade: validade.value,
+    codigoSeguranca: codigoSeguranca.value,
+    numeroParcelas: numeroParcelas.value,
+  };
 
-    // pedido
-    const pedido = {
-        id: 1,
-        usuario: localStorage.getItem('nomeUsuario'),
-        carrinho: JSON.parse(localStorage.getItem('carrinho')),
-        cartao: cartao
-    }
-    localStorage.setItem('pedido', JSON.stringify(pedido))
-    // limpar formulario e ir para home
-    formularioPagamento.reset()
-    irParaHome()
-    cart = []
-    atualizarCarrinho(cart)
-    atualizarNumeroItens()
-    console.log(pedido)
-    console.log(localStorage.getItem('pedido'))
-})
-// /aula 29
+  // pedido
+  const pedido = {
+    id: 1,
+    usuario: localStorage.getItem("nomeUsuario"),
+    carrinho: JSON.parse(localStorage.getItem("carrinho")),
+    cartao: cartao,
+  };
+  localStorage.setItem("pedido", JSON.stringify(pedido));
+  // limpar formulario e ir para home
+  formularioPagamento.reset();
+  irParaHome();
+  cart = [];
+  atualizarCarrinho(cart);
+  atualizarNumeroItens();
+});
